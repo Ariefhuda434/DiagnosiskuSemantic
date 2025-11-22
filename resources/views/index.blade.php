@@ -59,11 +59,11 @@
                               class="absolute left-full top-0 ml-2 w-48 rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40" 
                               style="min-width: 150px;">
                             <div class="py-1">
-                                <h4 class="px-4 py-1 text-xs font-semibold text-primary uppercase border-b mb-1">Usia & Seks</h4>
-                            <form action="/topologi" method="POST" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100">
+                                <h4 class="px-4 py-1 text-xs font-semibold text-primary uppercase border-b mb-1">Rentang Usia</h4>
+                            <form action="/kategori" method="POST" class="text-gray-700 block px-4 py-2 text-sm rounded-xl hover:bg-gray-100">
                             @csrf
                             <select name="inputKategori" id="inputKategori" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 w-full" onchange="this.form.submit()">
-                            <option disabled>pilih</option>
+                            <option >Pilih</option>
                             <option value="pria,laki,cowo">Pria</option>
                             <option value="wanita,perempuan">Wanita</option>
                             <option value="lansia,orang tua">Lansia</option>
@@ -93,15 +93,20 @@
                               style="min-width: 150px;">
                             <div class="py-1">
                                 <h4 class="px-4 py-1 text-xs font-semibold text-primary uppercase border-b mb-1">Sistem Organ</h4>
-                                    <form action="/tipe" method="POST" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100">
+                            <form action="/kategori" method="POST" class="text-gray-700 rounded-xl block px-4 py-2 text-sm hover:bg-gray-100">
                             @csrf
                             <select name="inputKategori" id="inputKategori" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 w-full" onchange="this.form.submit()">
-                            <option disabled>pilih</option>
+                            <option >Pilih </option>
                             <option value="pernapasan,sesak napas">Pernapasan</option>
-                            <option value="kelamin,seksual,reproduksi,genital">Kelamin</option>
+                            <option value="kelamin,seksual,reproduksi,genital,ginjal,hernia,saluran kencing,kemih">Kelamin</option>
                             <option value="mental,psikologi,emosional,sedih,depresi,marah">Mental</option>
                             <option value="hipertensi,jantung">Jantung</option>
                             <option value="hormon,metabolik,tiroid,endokrin,gula darah">Hormon</option>
+                            <option value="tulang,sendi,otot,ligamen,muskuloskeletal">Tulang & Sendi</option>
+                            <option value="kulit,dermis,jaringan,kanker kulit">Kulit</option>
+                            <option value="mata,penglihatan,kornea,retina">Penglihatan</option>
+                            <option value="saraf,otak,neuro,sumsum tulang">Saraf</option>
+                            <option value="kekebalan tubuh,autoimun,alergi,imunologi">Kekebalan Tubuh</option>
                             </select>
                             </form>
                             </div>
@@ -109,7 +114,7 @@
                     </div>
                     <form action="/semua" method="POST">
                         @csrf
-                        <button type="submit" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 mt-1 border-t pt-2">Semua Kondisi</button>
+                        <button type="submit" class="text-gray-700 w-full rounded-b-xl  block px-4 py-2 text-sm hover:bg-gray-100 mt-1 border-t pt-2">Semua Kondisi</button>
                     </form>
 
                 </div>
@@ -135,21 +140,22 @@
 
         <div class="w-full max-w-7xl px-4 pb-12">
                 @if (empty($results['results']['bindings']))
-                    <!-- Tampilan Hasil Kosong -->
                     @if (isset($query))
-                        <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-lg shadow-md mx-auto max-w-xl" role="alert">
-                            <p class="font-bold">Pencarian Selesai</p>
-                            <p>Tidak ditemukan penyakit yang sesuai dengan kata kunci "<strong>{{ $query }}</strong>".</p>
+                        <div class="bg-warning border-7 border-netral text-yellow-700 mt-10 p-4 rounded-lg shadow-md mx-auto max-w-xl" role="alert">
+                            <p class="font-bold font-nunito text-gray-600">Pencarian Selesai</p>
+                            <p class="font-nunito text-netral">Tidak ditemukan penyakit yang sesuai dengan kata kunci "<strong>{{ $query }}</strong>".</p>
                         </div>
                     @endif
                 @else
-                    <!-- Tampilan Kartu Hasil Pencarian (MODERN TAILWIND) -->
+                         <div class="bg-warning border-7 border-netral text-yellow-700 mt-10 p-4 mb-10  rounded-lg shadow-md mx-auto max-w-xl" role="alert">
+                            <p class="font-bold font-nunito text-gray-600 font-bold text-2xl text-gray-700"> Ditemukan {{ count($results['results']['bindings']) }} Penyakit</p>
+                            <p class="font-nunito text-netral"><strong>{{ $query ?? '' }}</strong></p>
+                        </div>
                     <h2 class="text-2xl font-bold text-gray-700 mb-6 border-b-2 border-primary/30 pb-2">
-                        Ditemukan {{ count($results['results']['bindings']) }} Penyakit
                     </h2>
-                    <div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                    <div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
                         @foreach ($results['results']['bindings'] as $penyakit)
-                        <div class="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:scale-[1.02] border border-gray-100 flex flex-col">
+                        <div class="bg-white rounded-2xl shadow-xl hover:shadow-2xl  transition duration-300 transform hover:scale-[1.02] border border-gray-100 flex flex-col">
                             
                             <div class="p-6 pb-4 bg-primary/10 border-b border-gray-200 rounded-t-2xl">
                                 <div class="flex justify-between items-start">
@@ -157,7 +163,7 @@
                                         {{ $penyakit['namaLabel']['value'] }}
                                     </h3>
                                     {{-- <span class="relevance-badge py-1 px-3 text-xs font-bold rounded-full text-white bg-secondary shadow-md">
-                                        {{ number_format((float)$penyakit['relevanceScore']['value'], 2, '.', '') }}
+                                        {{ number_format((float)$penyakit['relevanceScore']['value'], 2, , '') }}
                                     </span> --}}
                                 </div>
                             </div>
@@ -166,17 +172,13 @@
                                 <p class="text-sm text-gray-600 mb-4 line-clamp-4">
                                     {{ substr($penyakit['deskripsi']['value'], 0, 150) }}...
                                 </p>
-                                <a href="/{{ $penyakit['namaLabel']['value'] }}"  class="text-primary hover:text-hover-search font-semibold text-sm transition duration-150 flex items-center mt-3">
                                     <form action="/{{ $penyakit['namaLabel']['value'] }}" method="POST">
                                         @csrf
                                         <input value="{{ $penyakit['namaLabel']['value'] }}" name="label" class="hidden" >
-                                        <button type="submit">
-                                            Lihat Detail
+                                        <button type="submit" class="text-primary hover:text-hover-search font-semibold text-sm transition duration-150 flex items-center mt-3">
+                                            Lihat Detail >
                                         </button>
                                     </form>
-
-                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                                </a>
                             </div>
                         </div>
                         @endforeach
@@ -185,16 +187,11 @@
             </div>
         </div>
 
-        <footer class="bg-primary text-white py-6 mt-10">
-            <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+        <footer class="bg-primary text-white py-6 mt-70">
+            <div class="w-full justify-center flex flex-col md:flex-row justify-between items-center">
                 <div class="mb-4 md:mb-0">
                     <p class="text-xl font-semibold">Diagnosisku</p>
                     <p class="text-sm">© 2025 All rights reserved</p>
-                </div>
-                <div class="flex space-x-6">
-                    <a href="#" class="text-white hover:text-gray-300 transition duration-200">About</a>
-                    <a href="#" class="text-white hover:text-gray-300 transition duration-200">Privacy Policy</a>
-                    <a href="#" class="text-white hover:text-gray-300 transition duration-200">Terms of Service</a>
                 </div>
             </div>
         </footer>

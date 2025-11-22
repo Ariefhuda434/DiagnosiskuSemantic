@@ -42,6 +42,7 @@ class kategoriController extends Controller
 
     public function cariKategoriTpologi(Request $request){
         $inputKategori = $request->input('inputKategori'); 
+        $inputKategori = str_replace("'", "\'", $inputKategori);
 
         $gejalaArray = array_map('trim', explode(',', $inputKategori));
         $regexPattern = implode('|', array_map('preg_quote', $gejalaArray));
@@ -82,7 +83,6 @@ $penyakitKetemu = json_decode($response, true); //best match
         
 return view('index', [
             'results' => $penyakitKetemu,
-            'query' => $inputKategori
         ]);
     }
 }
