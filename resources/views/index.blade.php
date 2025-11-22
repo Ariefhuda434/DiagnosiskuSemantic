@@ -124,7 +124,6 @@
 </nav>
     
         
-        <!-- Main Content -->
         <div class="flex flex-col justify-center items-center mt-60 h-full px-4">
             <h1 class="text-8xl text-primary font-semibold font-swash text-gray-800 mb-4">Penyelidikan Gejala Cepat</h1>
             <p class="text-lg text-gray-600 mb-6 font-medium ">Dapatkan Jawaban Cepat Atas Kekhawatiran Kesehatan Anda.</p>
@@ -172,9 +171,15 @@
                                 <p class="text-sm text-gray-600 mb-4 line-clamp-4">
                                     {{ substr($penyakit['deskripsi']['value'], 0, 150) }}...
                                 </p>
-                                    <form action="/{{ $penyakit['namaLabel']['value'] }}" method="POST">
+                                {{-- panggil helper --}}
+                                @php
+                                    $label = $penyakit['namaLabel']['value'];
+                                    $slug = \App\helper\cutAfterChar::cutBefore($label ,'/');
+                                @endphp
+                                
+                                <form action="{{ route('penyakit.detail',['namaLabel' => $slug]) }}" method="POST">
                                         @csrf
-                                        <input value="{{ $penyakit['namaLabel']['value'] }}" name="label" class="hidden" >
+                                        <input value="{{ $slug }}" name="label" class="hidden" >
                                         <button type="submit" class="text-primary hover:text-hover-search font-semibold text-sm transition duration-150 flex items-center mt-3">
                                             Lihat Detail >
                                         </button>

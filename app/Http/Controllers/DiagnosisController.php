@@ -19,8 +19,6 @@ class DiagnosisController extends Controller
     ]);
     }
 
-    //format slug
-    
     public function search(Request $request)
     {
         $inputUser = $request->input('inputUser');      
@@ -103,13 +101,7 @@ return view('index', [
    
     public function detail(Request $request){
             $input = $request->input('label');    
-             $detail = $input;
-
-        $detail = urldecode($detail);
-        $detail = trim($detail, '/'); 
-        $detail = cutAfterChar::cutBefore($detail, '/');
-        $detail = cutAfterChar::cutBefore($detail, '(');
-        $detail = trim($detail);
+        $detail = cutAfterChar::cutBefore($input, '(');
             $sparqlQueryLabel = "
            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             PREFIX penyakit: <http://contoh.org/penyakit/>
