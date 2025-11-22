@@ -1,69 +1,202 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Diagnosisku || Home</title>
-    <link rel="icon" href="public/build/assets/Logo.png">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-gradient-to-br from-gray-100 to-blue-200 font-sans">
-    <!-- Navigation Bar -->
-    <nav class="h-20 w-full bg-primary border-b-8 border-secondary flex items-center px-6">
-        <p class="italic text-white font-bold text-4xl underline">Diagnosisku</p>
-    </nav>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Diagnosisku || Home</title>
+        <link rel="icon" href="public/build/assets/Logo.png">
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+         <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    </head>
+    <body class="bg-gradient-to-br from-gray-100 to-blue-200 font-sans">
+         <nav x-data="{ open: false, mobileMenuOpen: false }" 
+     class="h-20 w-full bg-primary border-b-8 border-secondary flex items-center px-4 md:px-6 shadow-xl relative z-20 ">
     
-    <!-- Main Content -->
-    <div class="flex flex-col justify-center items-center h-screen px-4">
-        <h1 class="text-8xl text-primary font-semibold font-swash text-gray-800 mb-4">Penyelidikan Gejala Cepat</h1>
-        <p class="text-lg text-gray-600 mb-6 font-medium ">Dapatkan Jawaban Cepat Atas Kekhawatiran Kesehatan Anda.</p>
+    <a href="#" class="italic underline text-white font-extrabold text-2xl md:text-4xl hover:text-secondary transition duration-300 mr-4 md:mr-8">
+        Diagnosisku
+    </a>
+
+    <div class="hidden md:flex items-center space-x-4">
         
-        <!-- Search Bar -->
-        <form action="/" method="POST" class="flex items-center bg-warning rounded-full border-7 border-netral shadow-lg p-2 w-full max-w-xl">
-            @csrf
-            <input type="text" name="inputUser" placeholder="Tuliskan keluhan anda..." required class="flex-grow py-2 font-nunito text-netral font-bold px-4 text-lg border-none rounded-l-full focus:outline-none">
-            <button type="submit" class="h-12 w-12">
-                <img src="{{ asset('build/assets/iconsearch.png') }}" class="h-12 w-12 mr-3 bg-netral rounded-full p-2 hover:bg-[#478480] transition-all ease-in-out duration-300" alt="" srcset="">
+        <div class="relative inline-block text-left" @click.away="open = false">
+            <button 
+                @click="open = !open" 
+                class="bg-white text-primary font-semibold px-4 py-2 rounded-xl shadow-lg hover:bg-gray-100 transition duration-150 inline-flex items-center text-sm md:text-base ring-2 ring-primary/20"
+            >
+                Kategori 
+                <svg x-show="!open" class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                <svg x-show="open" x-cloak class="-mr-1 ml-2 h-5 w-5 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
             </button>
-        </form>
+            
+            <div x-show="open" 
+                x-cloak
+                x-transition:enter="transition ease-out duration-200"
+                x-transition:enter-start="opacity-0 scale-95"
+                x-transition:enter-end="opacity-100 scale-100"
+                x-transition:leave="transition ease-in duration-150"
+                x-transition:leave-start="opacity-100 scale-100"
+                x-transition:leave-end="opacity-0 scale-95"
+                class="origin-top-left absolute left-0 mt-2 w-56 rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none z-30 transform" 
+                role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                
+                <div class="py-1" role="none">
+                    
+                    <div x-data="{ openSub: false }" @mouseenter="openSub = true" @mouseleave="openSub = false" class="relative">
+                        <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-primary/10 hover:text-primary transition font-bold flex justify-between items-center" tabindex="-1">
+                            Demografi Tubuh 
+                            <svg class="w-4 h-4 ml-2 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
+                        </a>
+                        
+                        <div x-show="openSub" 
+                              x-cloak
+                              x-transition:enter="transition ease-out duration-150"
+                              x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                              x-transition:enter-end="opacity-100 translate-x-0"
+                              x-transition:leave="transition ease-in duration-100"
+                              x-transition:leave-start="opacity-100 translate-x-0"
+                              x-transition:leave-end="opacity-0 translate-x-[-10px]"
+                              class="absolute left-full top-0 ml-2 w-48 rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40" 
+                              style="min-width: 150px;">
+                            <div class="py-1">
+                                <h4 class="px-4 py-1 text-xs font-semibold text-primary uppercase border-b mb-1">Usia & Seks</h4>
+                            <form action="/topologi" method="POST" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100">
+                            @csrf
+                            <select name="inputKategori" id="inputKategori" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 w-full" onchange="this.form.submit()">
+                            <option disabled>pilih</option>
+                            <option value="pria,laki,cowo">Pria</option>
+                            <option value="wanita,perempuan">Wanita</option>
+                            <option value="lansia,orang tua">Lansia</option>
+                            <option value="remaja">Remaja</option>
+                            <option value="anak,kecil,bayi">Anak-Anak</option>
+                            </select>
+                            </form>
 
-    @if (empty($results['results']['bindings']))
-        <p>Tidak ditemukan penyakit yang sesuai dengan kat kunci Anda.</p>
-    @else
-        <table>
-            <thead>
-                <tr>
-                    <th>Nama Penyakit</th>
-                    <th>Deskripsi Singkat</th>
-                    <th>Skor Relevansi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($results['results']['bindings'] as $penyakit)
-                    <tr>
-                        <td>{{ $penyakit['namaLabel']['value'] }}</td>
-                        <td>{{ substr($penyakit['deskripsi']['value'], 0, 150) }}...</td>
-                        <td>{{ $penyakit['relevanceScore']['value'] }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    @endif
-    </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div x-data="{ openSub: false }" @mouseenter="openSub = true" @mouseleave="openSub = false" class="relative">
+                         <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-primary/10 hover:text-primary transition font-bold flex justify-between items-center" tabindex="-1">
+                            Sistem Tubuh 
+                            <svg class="w-4 h-4 ml-2 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
+                        </a>
+                        <div x-show="openSub" 
+                              x-cloak
+                              x-transition:enter="transition ease-out duration-150"
+                              x-transition:enter-start="opacity-0 translate-x-[-10px]"
+                              x-transition:enter-end="opacity-100 translate-x-0"
+                              x-transition:leave="transition ease-in duration-100"
+                              x-transition:leave-start="opacity-100 translate-x-0"
+                              x-transition:leave-end="opacity-0 translate-x-[-10px]"
+                              class="absolute left-full top-0 ml-2 w-48 rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40" 
+                              style="min-width: 150px;">
+                            <div class="py-1">
+                                <h4 class="px-4 py-1 text-xs font-semibold text-primary uppercase border-b mb-1">Sistem Organ</h4>
+                                    <form action="/tipe" method="POST" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100">
+                            @csrf
+                            <select name="inputKategori" id="inputKategori" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 w-full" onchange="this.form.submit()">
+                            <option disabled>pilih</option>
+                            <option value="pernapasan,sesak napas">Pernapasan</option>
+                            <option value="kelamin,seksual,reproduksi,genital">Kelamin</option>
+                            <option value="mental,psikologi,emosional,sedih,depresi,marah">Mental</option>
+                            <option value="hipertensi,jantung">Jantung</option>
+                            <option value="hormon,metabolik,tiroid,endokrin,gula darah">Hormon</option>
+                            </select>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+                    <form action="/semua" method="POST">
+                        @csrf
+                        <button type="submit" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 mt-1 border-t pt-2">Semua Kondisi</button>
+                    </form>
 
-     <footer class="bg-primary text-white py-6 mt-10">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
-            <div class="mb-4 md:mb-0">
-                <p class="text-xl font-semibold">Diagnosisku</p>
-                <p class="text-sm">© 2025 All rights reserved</p>
-            </div>
-            <div class="flex space-x-6">
-                <a href="#" class="text-white hover:text-gray-300 transition duration-200">About</a>
-                <a href="#" class="text-white hover:text-gray-300 transition duration-200">Privacy Policy</a>
-                <a href="#" class="text-white hover:text-gray-300 transition duration-200">Terms of Service</a>
+                </div>
             </div>
         </div>
-    </footer>
-</body>
-</html>
+    </div>
+</nav>
+    
+        
+        <!-- Main Content -->
+        <div class="flex flex-col justify-center items-center mt-60 h-full px-4">
+            <h1 class="text-8xl text-primary font-semibold font-swash text-gray-800 mb-4">Penyelidikan Gejala Cepat</h1>
+            <p class="text-lg text-gray-600 mb-6 font-medium ">Dapatkan Jawaban Cepat Atas Kekhawatiran Kesehatan Anda.</p>
+            
+            <!-- Search Bar -->
+            <form action="/search" method="POST" class="flex items-center bg-warning rounded-full border-7 border-netral shadow-lg p-2 w-full max-w-xl">
+                @csrf
+                <input type="text" name="inputUser" placeholder="Tuliskan keluhan anda..." required class="flex-grow py-2 font-nunito text-netral font-bold px-4 text-lg border-none rounded-l-full focus:outline-none">
+                <button type="submit" class="h-12 w-12">
+                    <img src="{{ asset('build/assets/iconsearch.png') }}" class="h-12 w-12 mr-3 bg-netral rounded-full p-2 hover:bg-[#478480] transition-all ease-in-out duration-300" alt="" srcset="">
+                </button>
+            </form>
+
+        <div class="w-full max-w-7xl px-4 pb-12">
+                @if (empty($results['results']['bindings']))
+                    <!-- Tampilan Hasil Kosong -->
+                    @if (isset($query))
+                        <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-lg shadow-md mx-auto max-w-xl" role="alert">
+                            <p class="font-bold">Pencarian Selesai</p>
+                            <p>Tidak ditemukan penyakit yang sesuai dengan kata kunci "<strong>{{ $query }}</strong>".</p>
+                        </div>
+                    @endif
+                @else
+                    <!-- Tampilan Kartu Hasil Pencarian (MODERN TAILWIND) -->
+                    <h2 class="text-2xl font-bold text-gray-700 mb-6 border-b-2 border-primary/30 pb-2">
+                        Ditemukan {{ count($results['results']['bindings']) }} Penyakit
+                    </h2>
+                    <div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                        @foreach ($results['results']['bindings'] as $penyakit)
+                        <div class="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:scale-[1.02] border border-gray-100 flex flex-col">
+                            
+                            <div class="p-6 pb-4 bg-primary/10 border-b border-gray-200 rounded-t-2xl">
+                                <div class="flex justify-between items-start">
+                                    <h3 class="text-xl font-bold text-primary leading-tight pr-4">
+                                        {{ $penyakit['namaLabel']['value'] }}
+                                    </h3>
+                                    {{-- <span class="relevance-badge py-1 px-3 text-xs font-bold rounded-full text-white bg-secondary shadow-md">
+                                        {{ number_format((float)$penyakit['relevanceScore']['value'], 2, '.', '') }}
+                                    </span> --}}
+                                </div>
+                            </div>
+
+                            <div class="p-6 flex-grow">
+                                <p class="text-sm text-gray-600 mb-4 line-clamp-4">
+                                    {{ substr($penyakit['deskripsi']['value'], 0, 150) }}...
+                                </p>
+                                <a href="/{{ $penyakit['namaLabel']['value'] }}"  class="text-primary hover:text-hover-search font-semibold text-sm transition duration-150 flex items-center mt-3">
+                                    <form action="/{{ $penyakit['namaLabel']['value'] }}" method="POST">
+                                        @csrf
+                                        <input value="{{ $penyakit['namaLabel']['value'] }}" name="label" class="hidden" >
+                                        <button type="submit">
+                                            Lihat Detail
+                                        </button>
+                                    </form>
+
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                                </a>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+        </div>
+
+        <footer class="bg-primary text-white py-6 mt-10">
+            <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-xl font-semibold">Diagnosisku</p>
+                    <p class="text-sm">© 2025 All rights reserved</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-white hover:text-gray-300 transition duration-200">About</a>
+                    <a href="#" class="text-white hover:text-gray-300 transition duration-200">Privacy Policy</a>
+                    <a href="#" class="text-white hover:text-gray-300 transition duration-200">Terms of Service</a>
+                </div>
+            </div>
+        </footer>
+    </body>
+    </html>

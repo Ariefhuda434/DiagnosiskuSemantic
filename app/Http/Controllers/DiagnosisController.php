@@ -18,29 +18,63 @@ class DiagnosisController extends Controller
         'query' => null
     ]);
     }
+
+    //format slug
+    
     public function search(Request $request)
     {
         $inputUser = $request->input('inputUser');
-
+        //pemecahan input uswe
+        $gejalaArray = array_map('trim', explode(',', $inputUser));
+        //memastikan tidak ada string kosong
+        $gejalaArray = array_filter($gejalaArray);
+        //memastikan tidak ada input duplikat
+        $gejalaArray = array_unique($gejalaArray);
+        //menyusun kembali untuk filter regex
+        $regexPattern = implode('|', array_map('preg_quote', $gejalaArray));
         //best match
         $sparqlQueryLabel = "
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX penyakit: <http://contoh.org/penyakit/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX penyakit: <http://contoh.org/penyakit/>
 
-    SELECT ?penyakit ?namaLabel ?deskripsi (?score AS ?relevanceScore)
-    WHERE{
-         ?penyakit rdfs:label ?namaLabel .
-         ?penyakit penyakit:memilikiDeskripsi ?deskripsi .
-
-    OPTIONAL { 
-        ?penyakit penyakit:memilikiGejala ?gejala.
-        FILTER (regex(?gejala, \"{$inputUser}\", 'i')) .
-        BIND(1 AS ?score_match)
+            SELECT ?penyakit ?namaLabel ?deskripsi 
+            (SUM(?bobot) AS ?relevanceScore) 
+            (GROUP_CONCAT(DISTINCT ?match ; SEPARATOR=\", \") AS ?matchPoint)
+            WHERE {
+            ?penyakit rdfs:label ?namaLabel .
+            ?penyakit penyakit:memilikiDeskripsi ?deskripsi . 
+            OPTIONAL {
+            { 
+                ?penyakit rdfs:label ?match .
+                FILTER (regex(?match, \"{$regexPattern}\", 'i'))
+                BIND(1 AS ?bobot) 
+            }
+            UNION
+            { 
+                ?penyakit penyakit:memilikiGejala ?match .
+                FILTER (regex(?match, \"{$regexPattern}\", 'i'))
+                BIND(3 AS ?bobot) 
+            }
+            UNION
+            { 
+                ?penyakit penyakit:memilikiPenyebab ?match .
+                FILTER (regex(?match, \"{$regexPattern}\", 'i'))
+                BIND(2 AS ?bobot) 
+            }
+            UNION
+            { 
+                ?penyakit penyakit:memilikiDeskripsi ?match .
+                FILTER (regex(?match, \"{$regexPattern}\", 'i'))
+                BIND(2 AS ?bobot) 
+            }
+        }
     }
-    BIND(COALESCE(?score_match, 0) AS ?score)
-    FILTER (?score > 0)
-}
-ORDER BY DESC(?score)";
+    GROUP BY ?penyakit ?namaLabel ?deskripsi
+    HAVING (SUM(?bobot) > 0)
+    ORDER BY DESC(?relevanceScore)
+    LIMIT 10    
+        ";
+    
 //server fuseki
 $fusekiEndpoint = "http://localhost:3030/Diagnosisku/sparql";
 //buka koneksi
@@ -66,5 +100,63 @@ return view('index', [
             'query' => $inputUser
         ]);
     }
-  
+    
+    public function detail(Request $request){
+            $detail = $request->input('label');
+            
+            $sparqlQueryLabel = "
+           PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX penyakit: <http://contoh.org/penyakit/>
+
+            SELECT ?penyakit ?namaLabel 
+            (GROUP_CONCAT(DISTINCT ?deskripsi; SEPARATOR=\", \") AS ?deskripsiList)
+            (GROUP_CONCAT(DISTINCT ?gejala; SEPARATOR=\", \") AS ?gejalaList)
+            (GROUP_CONCAT(DISTINCT ?penyebab; SEPARATOR=\", \") AS ?penyebabList)
+            (GROUP_CONCAT(DISTINCT ?pencegahan; SEPARATOR=\", \") AS ?pencegahanList)
+            (GROUP_CONCAT(DISTINCT ?diagnosis; SEPARATOR=\", \") AS ?diagnosisList)
+            (GROUP_CONCAT(DISTINCT ?penanganan; SEPARATOR=\", \") AS ?penangananList)
+            WHERE {
+                ?penyakit rdfs:label ?namaLabel .
+                FILTER (regex(?namaLabel, \"{$detail}\", 'i'))
+                OPTIONAL { ?penyakit penyakit:memilikiDeskripsi ?deskripsi . } 
+                OPTIONAL { ?penyakit penyakit:memilikiGejala ?gejala . }
+                OPTIONAL { ?penyakit penyakit:memilikiPenyebab ?penyebab . }
+                OPTIONAL { ?penyakit penyakit:memilikiPencegahan ?pencegahan . }
+                OPTIONAL { ?penyakit penyakit:memilikiDiagnosis ?diagnosis . }
+                OPTIONAL { ?penyakit penyakit:memilikiPenanganan ?penanganan . }
+            }
+            GROUP BY ?penyakit ?namaLabel
+            LIMIT 1 
+        ";
+
+//server fuseki
+$fusekiEndpoint = "http://localhost:3030/Diagnosisku/sparql";
+//buka koneksi
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $fusekiEndpoint);
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, "query=" . urlencode($sparqlQueryLabel) . "&output=json");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/x-www-form-urlencoded"));
+$response = curl_exec($ch);
+//tutup koneksi
+curl_close($ch);
+
+$penyakitKetemu = json_decode($response, true); //best match
+
+if ($response === false) {
+             Log::error('CURL Error: ' . curl_error($ch));
+             return redirect('/')->with('error', 'Gagal terhubung ke Fuseki Endpoint.');
+}
+        
+return view('detail', [
+            'results' => $penyakitKetemu,
+        ]);
+    }
+
+     public function detailView()
+    {
+        return view('detail');
+    }
+
 }
