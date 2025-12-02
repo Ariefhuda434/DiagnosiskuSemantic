@@ -11,9 +11,9 @@
     </head>
     <body class="bg-gradient-to-br from-gray-100 to-blue-200 font-sans">
          <nav x-data="{ open: false, mobileMenuOpen: false }" 
-     class="h-20 w-full bg-primary border-b-8 border-secondary flex items-center px-4 md:px-6 shadow-xl relative z-20 ">
+     class="h-20 w-full bg-primary border-b-8 border-warning flex items-center px-4 md:px-6 shadow-xl relative z-20 ">
     
-    <a href="#" class="italic underline text-white font-extrabold text-2xl md:text-4xl hover:text-secondary transition duration-300 mr-4 md:mr-8">
+    <a href="#" class="italic underline text-white font-extrabold text-4xl hover:text-secondary transition duration-300 mr-4 md:mr-8">
         Diagnosisku
     </a>
 
@@ -60,19 +60,26 @@
                               style="min-width: 150px;">
                             <div class="py-1">
                                 <h4 class="px-4 py-1 text-xs font-semibold text-primary uppercase border-b mb-1">Rentang Usia</h4>
-                            <form action="/kategori" method="POST" class="text-gray-700 block px-4 py-2 text-sm rounded-xl hover:bg-gray-100">
-                            @csrf
-                            <select name="inputKategori" id="inputKategori" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 w-full" onchange="this.form.submit()">
-                            <option >Pilih</option>
-                            <option value="pria,laki,cowo">Pria</option>
-                            <option value="wanita,perempuan">Wanita</option>
-                            <option value="lansia,orang tua">Lansia</option>
-                            <option value="remaja">Remaja</option>
-                            <option value="anak,kecil,bayi">Anak-Anak</option>
-                            </select>
-                            </form>
-
-                            </div>
+                                    <form action="/kategori/lansia" method="POST" class="text-gray-700 block px-4 py-2 text-sm rounded-xl hover:bg-gray-100">
+                                        @csrf
+                                            <button type="submit">Lansia</button>
+                                    </form>
+                                    <form action="/kategori/dewasa" method="POST" class="text-gray-700 block px-4 py-2 text-sm rounded-xl hover:bg-gray-100">
+                                        @csrf
+                                            <button type="submit">Dewasa</button>
+                                    </form>
+                                    <form action="/kategori/remaja" method="POST" class="text-gray-700 block px-4 py-2 text-sm rounded-xl hover:bg-gray-100">
+                                        @csrf
+                                            <button type="submit">Remaja</button>
+                                    </form>
+                                    <form action="/kategori/anak-kecil" method="POST" class="text-gray-700 block px-4 py-2 text-sm rounded-xl hover:bg-gray-100">
+                                        @csrf
+                                            <button type="submit">Anak Kecil</button>
+                                    </form>
+                                    <form action="/kategori/bayi" method="POST" class="text-gray-700 block px-4 py-2 text-sm rounded-xl hover:bg-gray-100">
+                                        @csrf
+                                            <button type="submit">Bayi</button>
+                                    </form>
                         </div>
                     </div>
                     
@@ -93,26 +100,50 @@
                               style="min-width: 150px;">
                             <div class="py-1">
                                 <h4 class="px-4 py-1 text-xs font-semibold text-primary uppercase border-b mb-1">Sistem Organ</h4>
-                            <form action="/kategori" method="POST" class="text-gray-700 rounded-xl block px-4 py-2 text-sm hover:bg-gray-100">
-                            @csrf
-                            <select name="inputKategori" id="inputKategori" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 w-full" onchange="this.form.submit()">
-                            <option >Pilih </option>
-                            <option value="pernapasan,sesak napas">Pernapasan</option>
-                            <option value="kelamin,seksual,reproduksi,genital,ginjal,hernia,saluran kencing,kemih">Kelamin</option>
-                            <option value="mental,psikologi,emosional,sedih,depresi,marah">Mental</option>
-                            <option value="hipertensi,jantung">Jantung</option>
-                            <option value="hormon,metabolik,tiroid,endokrin,gula darah">Hormon</option>
-                            <option value="tulang,sendi,otot,ligamen,muskuloskeletal">Tulang & Sendi</option>
-                            <option value="kulit,dermis,jaringan,kanker kulit">Kulit</option>
-                            <option value="mata,penglihatan,kornea,retina">Penglihatan</option>
-                            <option value="saraf,otak,neuro,sumsum tulang">Saraf</option>
-                            <option value="kekebalan tubuh,autoimun,alergi,imunologi">Kekebalan Tubuh</option>
-                            </select>
-                            </form>
+                               <form action="/kategori/pernapasan" method="POST" class="text-gray-700 block px-4 py-2 text-sm rounded-xl hover:bg-gray-100">
+                                        @csrf
+                                            <button type="submit">Pernapasan</button>
+                                    </form>
+                                    <form action="/kategori/saraf" method="POST" class="text-gray-700 block px-4 py-2 text-sm rounded-xl hover:bg-gray-100">
+                                        @csrf
+                                            <button type="submit">Saraf</button>
+                                    </form>
+                                    <form action="/kategori/Indra" method="POST" class="text-gray-700 block px-4 py-2 text-sm rounded-xl hover:bg-gray-100">
+                                        @csrf
+                                            <button type="submit">Indra</button>
+                                    </form>
+                                    <form action="/kategori/Pencernaan" method="POST" class="text-gray-700 block px-4 py-2 text-sm rounded-xl hover:bg-gray-100">
+                                        @csrf
+                                            <button type="submit">Penceranaan</button>
+                                    </form>
+                                    <form action="/kategori/Reproduksi" method="POST" class="text-gray-700 block px-4 py-2 text-sm rounded-xl hover:bg-gray-100">
+                                        @csrf
+                                            <button type="submit">Reproduksi</button>
+                                    </form>
+                                    <form action="/kategori/Dermatologi" method="POST" class="text-gray-700 block px-4 py-2 text-sm rounded-xl hover:bg-gray-100">
+                                        @csrf
+                                            <button type="submit">Dermatologi</button>
+                                    </form>
+                                    <form action="/kategori/Integumen" method="POST" class="text-gray-700 block px-4 py-2 text-sm rounded-xl hover:bg-gray-100">
+                                        @csrf
+                                            <button type="submit">Integumen</button>
+                                    </form>
+                                    <form action="/kategori/Imunologi" method="POST" class="text-gray-700 block px-4 py-2 text-sm rounded-xl hover:bg-gray-100">
+                                        @csrf
+                                            <button type="submit">Imunologi</button>
+                                    </form>
+                                    <form action="/kategori/Kardiovaskular" method="POST" class="text-gray-700 block px-4 py-2 text-sm rounded-xl hover:bg-gray-100">
+                                        @csrf
+                                            <button type="submit">Kardiovaskular</button>
+                                    </form>
+                                    <form action="/kategori/Endokrin" method="POST" class="text-gray-700 block px-4 py-2 text-sm rounded-xl hover:bg-gray-100">
+                                        @csrf
+                                            <button type="submit">Endokrin</button>
+                                    </form>
                             </div>
                         </div>
                     </div>
-                    <form action="/semua" method="POST">
+                    <form action="/kategori/semua" method="POST">
                         @csrf
                         <button type="submit" class="text-gray-700 w-full rounded-b-xl  block px-4 py-2 text-sm hover:bg-gray-100 mt-1 border-t pt-2">Semua Kondisi</button>
                     </form>
@@ -159,11 +190,12 @@
                             <div class="p-6 pb-4 bg-primary/10 border-b border-gray-200 rounded-t-2xl">
                                 <div class="flex justify-between items-start">
                                     <h3 class="text-xl font-bold text-primary leading-tight pr-4">
-                                        {{ $penyakit['namaLabel']['value'] }}
+                                         {{ $penyakit['displayLabel']['value'] }} 
                                     </h3>
-                                    {{-- <span class="relevance-badge py-1 px-3 text-xs font-bold rounded-full text-white bg-secondary shadow-md">
-                                        {{ number_format((float)$penyakit['relevanceScore']['value'], 2, , '') }}
-                                    </span> --}}
+                                   {{-- @if (!empty($penyakit['relevanceScore']['value']))
+                                        <span class="relevance-badge py-1 px-3 text-xs font-bold rounded-full text-white bg-secondary shadow-md"> {{ number_format((float)$penyakit['relevanceScore']['value'], 2, '.', '') }}
+                                    </span>
+                                    @endif --}}
                                 </div>
                             </div>
 
@@ -171,9 +203,8 @@
                                 <p class="text-sm text-gray-600 mb-4 line-clamp-4">
                                     {{ substr($penyakit['deskripsi']['value'], 0, 150) }}...
                                 </p>
-                                {{-- panggil helper --}}
                                 @php
-                                    $label = $penyakit['namaLabel']['value'];
+                                    $label = $penyakit['displayLabel']['value'];
                                     $slug = \App\helper\cutAfterChar::cutBefore($label ,'/');
                                 @endphp
                                 
